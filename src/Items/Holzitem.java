@@ -25,7 +25,6 @@ public class Holzitem extends Items{
 	@Override
 	public void setzaktion() {
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Holz());
-		Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.anzahl --;
 	}
 
 }

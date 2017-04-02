@@ -29,7 +29,6 @@ public class Türitem extends Items{
 		if(Mainclass.array1[Mainclass.ipos][Mainclass.bpos + 1].content.begehbar() == false){
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Türunten());
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos-1].ersetzen(new Türoben());
-		Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.anzahl --;
 		}
 	}
 	

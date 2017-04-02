@@ -24,7 +24,6 @@ public class Eisenerzitem extends Items{
 
 	public void setzaktion() {
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Eisen());
-		Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.anzahl --;
 	}
 
 }

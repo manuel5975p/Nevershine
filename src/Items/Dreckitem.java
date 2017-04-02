@@ -27,7 +27,6 @@ public class Dreckitem extends Items{
 
 	public void setzaktion() {
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Dreck());
-		Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.anzahl --;
 	}
 
 }

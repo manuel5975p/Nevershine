@@ -23,7 +23,6 @@ public class Felder implements Serializable{
  public void zerstören() {
 	 if(!Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.getClass().equals(new Luft().getClass())){
 		if(Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.schläge >= Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.getharte()){
-			Inventar.einsortieren();
 			Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Luft());
 		    Mainclass.abbaucooldown = 15;
 		}

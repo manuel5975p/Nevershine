@@ -24,7 +24,6 @@ public class Feuerstelleitem extends Items{
 
 	public void setzaktion() {
 		Mainclass.array1[Mainclass.ipos][Mainclass.bpos].ersetzen(new Feuerstelle());
-		Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.anzahl --;
 	}
 
 }

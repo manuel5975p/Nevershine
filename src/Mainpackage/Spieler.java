@@ -16,8 +16,8 @@ import Blocks.Türunten;
 import Blocks.schneedreck;
 
 public class Spieler {
-	int yp, grösse, xp, gesch, px, py, leben, maxleben, usecooldown2, jumpp, keyspace = 0;
-	boolean oben, unten, rechts, links, jump = false;
+	int yp, grösse, xp, gesch, px, py, leben, maxleben, usecooldown2, jumpp, keyspace = 0, falls = 0;
+	boolean oben, unten, rechts, links, jump = false, inventarcooldown = false;
 
 	Spieler(int x, int y, int g, int l, int ml) {
 		xp = x;
@@ -84,9 +84,16 @@ public class Spieler {
 	public void fall() {
 		if(jump == false){
 			colisionUnten();
+			
+			falls += 1;
+			
+			if(falls > 11){
+				falls = 11;
+			}
 		}
 		if (jump == false && unten == false) {
-			Mainclass.spielers.get(0).yp += Mainclass.gravitation;
+			Mainclass.spielers.get(0).yp += falls;
+			System.out.println(falls);
 		}
 	}
 
@@ -95,7 +102,7 @@ public class Spieler {
 		int move = 0;
 		oben = false;
 
-		for (int r = 1; r < Mainclass.gravitation + 1; r++) {
+		for (int r = 1; r < falls + 1; r++) {
 			if (Mainclass.array1[(xp)/ Mainclass.blockgrösse]
 								[(yp - r +1) / Mainclass.blockgrösse].content.begehbar() == false && oben == false) {
 				oben = true;
@@ -118,16 +125,18 @@ public class Spieler {
 		int move = 0;
 		unten = false;
 
-		for (int r = 1; r < Mainclass.gravitation + 1; r++) {
+		for (int r = 1; r < falls + 1; r++) {
 			if (Mainclass.array1[(xp)/ Mainclass.blockgrösse]
 								[(yp + 50 + r -1) / Mainclass.blockgrösse].content.begehbar() == false && unten == false) {
 				unten = true;
 				move = r;
+				falls = 0;
 			}
 			if (Mainclass.array1[(xp + 25)/ Mainclass.blockgrösse]
 								[(yp + 50 + r -1) / Mainclass.blockgrösse].content.begehbar() == false && unten == false) {
 				unten = true;
 				move = r;
+				falls = 0;
 			}
 		}
 		
@@ -200,6 +209,12 @@ public class Spieler {
 			xp -= move -1;
 		}
 	}
+	public void InventarVerwenden() {
+		if(Keyboard.isKeyDown(Keyboard.KEY_E) && inventarcooldown == false){
+			Mainclass.InventarStatus = true;
+			inventarcooldown = true;
+		}
+	}
 
 	public void verschiebung() {
 		Mainclass.xver = Mainclass.spielers.get(0).xp - 910;
@@ -218,12 +233,10 @@ public class Spieler {
 
 	public void abbaue() {
 		Mainclass.abbaucooldown--;
-		if (Mainclass.abbaucooldown <= 0 && Mainclass.inventar == 0
-				&& Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.art.starke() != 0) {
+		if (Mainclass.abbaucooldown <= 0) {
 			if (Mouse.isButtonDown(0) && !Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.getClass()
 					.equals(new Luft().getClass())) {
-				Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.schläge += Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.art
-						.starke();
+				Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.schläge += 1;
 				Mainclass.abbaucooldown = 50;
 				if (Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.getClass()
 						.equals(new Dreck().getClass())) {
@@ -267,26 +280,11 @@ public class Spieler {
 	}
 
 	public void setzen() {
-		if (Mouse.isButtonDown(1)
-				&& Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.getClass().equals(new Luft().getClass())
-				&& Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.art.setzbar() == true) {
-			Mainclass.inventarfeld[Mainclass.xauswahl][0].inventarstak.art.setzaktion();
-		}
+		
 	}
 
 	public void spawn() {
 		xp = Mainclass.spawnx;
 		yp = Mainclass.spawny;
-	}
-
-	public void verwenden() {
-		if (usecooldown2 > 0) {
-			usecooldown2--;
-		}
-		if (Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.verwendbar() == true
-				&& Keyboard.isKeyDown(Keyboard.KEY_F) && usecooldown2 <= 0) {
-			Mainclass.array1[Mainclass.ipos][Mainclass.bpos].content.aktion();
-			usecooldown2 = Mainclass.usecooldown;
-		}
 	}
 }

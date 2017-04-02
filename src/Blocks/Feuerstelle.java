@@ -50,7 +50,5 @@ public class Feuerstelle extends Block{
 	}
 
 	public void aktion() {
-		Mainclass.Feuerinventar = true;
-		Mainclass.inventar = 1;
 	}
 }

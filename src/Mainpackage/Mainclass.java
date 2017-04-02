@@ -31,8 +31,8 @@ import Items.Apfel;
 import Items.Türitem;
 import Mainpackage.Texture;
 import Items.Items;
-import Items.Holzspitzhacke; 
-import Items.Steinspitzhacke; 
+import Items.Holzspitzhacke;
+import Items.Steinspitzhacke;
 
 import java.util.*;
 import java.io.File;
@@ -50,11 +50,12 @@ public class Mainclass {
 	static ArrayList<Spieler> spielers = new ArrayList<Spieler>();
 	static ArrayList<Schnee> schnees = new ArrayList<Schnee>();
 	public static ArrayList<Feuerpartikel> feuerpartikels = new ArrayList<Feuerpartikel>();
+	public static ArrayList<Inventarfeld> inventars = new ArrayList<Inventarfeld>();
 	static boolean aktive = false, oben = false;
 	public static boolean Feuerinventar = false;
 	public static int Menustatus = 1;
+	public static boolean InventarStatus = false;
 	public static int usecooldown = 10;
-	public static int inventar = 0;
 	public static int inventarcooldown = 0;
 	public static int blockgrösse = 25;
 	public static int einmal;
@@ -67,7 +68,7 @@ public class Mainclass {
 	public static int ymouse;
 	public static int xcraft = 3;
 	public static int ycraft = 3;
-	public static int spieleri, spielerb, spielerip, spielerbp, spieleripp, gravitation = 9, facing = 2, jumps = 5, jumph = 50;
+	public static int spieleri, spielerb, spielerip, spielerbp, spieleripp, facing = 2, jumps = 5, jumph = 50;
 	public static int counter;
 	public static int xver;
 	public static int yver;
@@ -122,7 +123,6 @@ public class Mainclass {
 	public static Stak Mousestak;
 	public final static String datafolder = "data";
 	public static Felder[][] array1 = new Felder[xsize][ysize];
-	public static Inventarfelder[][] inventarfeld = new Inventarfelder[xinventar][yinventar];
 
 	private Mainclass() {
 	}
@@ -233,18 +233,6 @@ public class Mainclass {
 		Türeoffenoben = Texture.createTexture(ImageIO.read(new File("data\\Türoffenoben.png")));
 		Türeoffenunten = Texture.createTexture(ImageIO.read(new File("data\\Türoffenunten.png")));
 		Türitem = Texture.createTexture(ImageIO.read(new File("data\\Türitem.png")));
-		
-		for (int c = 0; c < Mainclass.xinventar; c++) {
-			for (int d = 0; d < Mainclass.yinventar; d++) {
-				inventarfeld[c][d] = new Inventarfelder(c, d, 100);
-			}
-		}
-		inventarfeld[0][0].inventarstak.anzahl = 1;
-		inventarfeld[0][0].inventarstak.art = new Holzspitzhacke();
-		inventarfeld[1][0].inventarstak.anzahl = 1;
-		inventarfeld[1][0].inventarstak.art = new Feuerstelleitem();
-		inventarfeld[2][0].inventarstak.anzahl = 1;
-		inventarfeld[2][0].inventarstak.art = new Türitem();
 	}
 
 	private static void run() {
@@ -257,7 +245,7 @@ public class Mainclass {
 				logic();
 				render();
 				Display.sync(FRAMERATE);
-			} else { 
+			} else {
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
@@ -290,10 +278,10 @@ public class Mainclass {
 		glClear(GL_COLOR_BUFFER_BIT);
 		glColor3f(0, 0, 1);
 		if (Menustatus == 0) {
-			glColor3f(1,1,1);
+			glColor3f(1, 1, 1);
 			schneelandschaft.displayRect(0, 0, 1920, 1080);
 			GL11.glColor4f(0, 0, 0, 0.2f);
-			rect(0,0,1920,1080);
+			rect(0, 0, 1920, 1080);
 			for (int i = 0; i < schnees.size(); i++) {
 				Schnee schnee = (Schnee) schnees.get(i);
 				schnee.anzeigen();
@@ -301,7 +289,8 @@ public class Mainclass {
 			}
 			for (int i = 0; i < xsize; i++) {
 				for (int b = 0; b < ysize; b++) {
-					if (i * blockgrösse + xver <= 1980 && (i + 1) * blockgrösse + xver >= 0 && b * blockgrösse + yver <= 1080 && (b + 1) * blockgrösse + yver >= 0) {
+					if (i * blockgrösse + xver <= 1980 && (i + 1) * blockgrösse + xver >= 0
+							&& b * blockgrösse + yver <= 1080 && (b + 1) * blockgrösse + yver >= 0) {
 						array1[i][b].inhalt(i * blockgrösse, b * blockgrösse);
 					}
 					array1[i][b].zerstören();
@@ -312,7 +301,7 @@ public class Mainclass {
 				feuerpartikel.anzeigen();
 				feuerpartikel.tick();
 				feuerpartikel.beweg();
-				if(feuerpartikels.get(i).grösse < 0){
+				if (feuerpartikels.get(i).grösse < 0) {
 					feuerpartikels.remove(i);
 				}
 			}
@@ -326,29 +315,19 @@ public class Mainclass {
 				spieler.anzeigen();
 				spieler.abbaue();
 				spieler.setzen();
-				spieler.verwenden();
+				spieler.InventarVerwenden();
 			}
 			Map.update();
 			sm.stopSound(sm.Menumusic);
 			sm.loopSound(sm.GameMusic);
 			inventarcooldown += 1;
-			if (Keyboard.isKeyDown(Keyboard.KEY_E) && inventarcooldown >= 15 && inventar == 0) {
-				inventar = 1;
-				inventarcooldown = 0;
+
+			if (InventarStatus == true) {
+				System.out.println("offen");
 			}
-			if (Keyboard.isKeyDown(Keyboard.KEY_E) && inventar == 1 && inventarcooldown >= 15) {
-				inventar = 0;
-				Feuerinventar = false;
-				inventarcooldown = 0;
-			}
-			if (inventar == 1) {
-				Inventar.render();
-			}
-			if(inventar == 0){
-				Inventar.render2();
+
 		}
-			//Map.schneesturm();
-		}
+
 		if (Menustatus == 1) {
 			Mainmenu.Mainmenu();
 			sm.stopSound(sm.GameMusic);
@@ -399,6 +378,7 @@ public class Mainclass {
 		glVertex2f(xa + l, ya + b);
 		glEnd();
 	}
+
 	public static void rect(int xa, int ya, int l, float b) {
 		glBegin(GL_QUADS);
 		glVertex2f(xa, ya);

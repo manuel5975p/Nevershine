@@ -17,8 +17,9 @@ import Blocks.schneedreck;
 import Items.Frei;
 
 public class Spieler {
-	int yp, grösse, xp, gesch, px, py, leben, maxleben, usecooldown2, jumpp, keyspace = 0, falls = 0, inventarcooldown,
+	int yp, grösse, xp, gesch, px, py, leben, maxleben, usecooldown2, jumpp, keyspace = 0, inventarcooldown,
 			abbaucooldown, setzcooldown;
+	float  falls = 0;
 	boolean oben, unten, rechts, links, jump = false;
 
 	Spieler(int x, int y, int g, int l, int ml) {
@@ -41,7 +42,9 @@ public class Spieler {
 			Mainclass.faceright.displayRect(xp + Mainclass.xver, yp + Mainclass.yver, 26, 50);
 		}
 		//Leben
-		Mainclass.healthbar(1550, 30, 150, 15, leben, 50);
+		GL11.glColor3f(1, 0.2f, 0.1f);
+		Mainclass.healthbar(1550, 30, 300, 15, leben, maxleben);
+		
 	}
 
 	public void bewegen() {
@@ -92,10 +95,8 @@ public class Spieler {
 		if (jump == false) {
 			colisionUnten();
 
-			falls += 1;
-
-			if (falls > 11) {
-				falls = 11;
+			if (falls < 16) {
+				falls += 1;
 			}
 		}
 		if (jump == false && unten == false) {
@@ -136,12 +137,21 @@ public class Spieler {
 					.begehbar() == false && unten == false) {
 				unten = true;
 				move = r;
+				
+				if(falls > 10) {
+					takedamage(falls * 4);
+				}
+				
 				falls = 0;
 			}
 			if (Mainclass.array1[(xp + 25 - 1) / Mainclass.blockgrösse][(yp + 50 + r - 1)
 					/ Mainclass.blockgrösse].content.begehbar() == false && unten == false) {
 				unten = true;
 				move = r;
+				if(falls > 15) {
+					takedamage(falls * 2);
+					System.out.println(falls*2);
+				}
 				falls = 0;
 			}
 		}
@@ -307,5 +317,13 @@ public class Spieler {
 	public void spawn() {
 		xp = Mainclass.spawnx;
 		yp = Mainclass.spawny;
+		leben = maxleben;
+	}
+	
+	public void takedamage(float damage) {
+		leben -= damage;
+		if(leben <= 0) {
+			spawn();
+		}
 	}
 }

@@ -154,7 +154,7 @@ public class Mainclass {
 		glLoadIdentity();
 		glViewport(0, 0, Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight());
 		Inventar.erstellen();
-		spielers.add(new Spieler(spawnx, spawny, speed, 100, 200));
+		spielers.add(new Spieler(spawnx, spawny, speed, 100, 100));
 		sm = new SoundManager();
 		dig = new SoundManager();
 		lauf = new SoundManager();
@@ -399,13 +399,6 @@ public class Mainclass {
 		glVertex2d(xa + l, ya);
 		glVertex2d(xa + l, ya + b);
 		glVertex2d(xa, ya + b);
-		glEnd();
-		glLineWidth(2.5f);
-		glBegin(GL_LINES);
-		glVertex2f(xa, ya);
-		glVertex2f(xa + l, ya);
-		glVertex2f(xa + l, ya + b);
-		glVertex2f(xa + l, ya + b);
 		glEnd();
 	}
 

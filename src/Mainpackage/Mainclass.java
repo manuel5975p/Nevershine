@@ -59,13 +59,13 @@ public class Mainclass {
 	public static int inventarcooldown = 0;
 	public static int blockgrösse = 25;
 	public static int einmal;
-	public static int verwendung = 0;
+	public static int verwendung = 0; 
 	public static int speed = 3;
 	public static int spawnx = 500, spawny = 500;
-	public static int xmausaus, ymausaus;
 	public static int xauswahl;
 	public static int xmouse;
 	public static int ymouse;
+	public static int ausgewahlt = 0;
 	public static int xcraft = 3;
 	public static int ycraft = 3;
 	public static int spieleri, spielerb, spielerip, spielerbp, spieleripp, facing = 2, jumps = 5, jumph = 50;
@@ -75,7 +75,6 @@ public class Mainclass {
 	public static int xsize = 400;
 	public static int ysize = 800;
 	public static int xpos, ypos;
-	public static int abbaucooldown;
 	public static int bc = 10;
 	public static int ipos = 0;
 	public static int bpos = 0;
@@ -97,6 +96,7 @@ public class Mainclass {
 	public static Texture Herzh;
 	public static Texture schneeflocke;
 	public static Texture schneelandschaft;
+	public static Texture erdhintergrund;
 	public static Texture schneedecke;
 	public static Texture Bletter;
 	public static Texture Feuerstelle;
@@ -127,7 +127,7 @@ public class Mainclass {
 	private Mainclass() {
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		try {
 			init();
 			run();
@@ -153,6 +153,7 @@ public class Mainclass {
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
 		glViewport(0, 0, Display.getDisplayMode().getWidth(), Display.getDisplayMode().getHeight());
+		Inventar.erstellen();
 		spielers.add(new Spieler(spawnx, spawny, speed, 100, 200));
 		sm = new SoundManager();
 		dig = new SoundManager();
@@ -233,6 +234,7 @@ public class Mainclass {
 		Türeoffenoben = Texture.createTexture(ImageIO.read(new File("data\\Türoffenoben.png")));
 		Türeoffenunten = Texture.createTexture(ImageIO.read(new File("data\\Türoffenunten.png")));
 		Türitem = Texture.createTexture(ImageIO.read(new File("data\\Türitem.png")));
+		erdhintergrund = Texture.createTexture(ImageIO.read(new File("data\\dirt backgound.png")));
 	}
 
 	private static void run() {
@@ -277,9 +279,17 @@ public class Mainclass {
 		glClear(GL_COLOR_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 		glClear(GL_COLOR_BUFFER_BIT);
 		glColor3f(0, 0, 1);
+		
+		
 		if (Menustatus == 0) {
 			glColor3f(1, 1, 1);
+			if(spielers.get(0).yp < 1000){
 			schneelandschaft.displayRect(0, 0, 1920, 1080);
+			}
+			glColor4f(1, 1, 1, 1);
+			if(spielers.get(0).yp > 1000){
+			erdhintergrund.displayRect(0, 0, 1920, 1080);
+			}
 			GL11.glColor4f(0, 0, 0, 0.2f);
 			rect(0, 0, 1920, 1080);
 			for (int i = 0; i < schnees.size(); i++) {
@@ -293,9 +303,9 @@ public class Mainclass {
 							&& b * blockgrösse + yver <= 1080 && (b + 1) * blockgrösse + yver >= 0) {
 						array1[i][b].inhalt(i * blockgrösse, b * blockgrösse);
 					}
-					array1[i][b].zerstören();
 				}
 			}
+
 			for (int i = 0; i < feuerpartikels.size(); i++) {
 				Feuerpartikel feuerpartikel = (Feuerpartikel) feuerpartikels.get(i);
 				feuerpartikel.anzeigen();
@@ -311,26 +321,45 @@ public class Mainclass {
 				spieler.bewegen();
 				spieler.fall();
 				spieler.jump();
+				spieler.setzen();
 
 				spieler.anzeigen();
-				spieler.abbaue();
-				spieler.setzen();
 				spieler.InventarVerwenden();
+				spieler.abbaue();
 			}
+
 			Map.update();
 			sm.stopSound(sm.Menumusic);
 			sm.loopSound(sm.GameMusic);
 			inventarcooldown += 1;
 
-			if (InventarStatus == true) {
-				System.out.println("offen");
+			for (int i = 0; i < 10; i++) {
+				Inventarfeld Inventar = (Inventarfeld) inventars.get(i);
+				Inventar.render();
+				Inventar.update();
 			}
 
+			if (InventarStatus == true) {
+				for (int i = 0; i < inventars.size(); i++) {
+					Inventarfeld Inventar = (Inventarfeld) inventars.get(i);
+					if(Inventar.timer > 0) {
+					Inventar.timer --;
+					}
+					Inventar.render();
+						Inventar.staktakeall();
+						Inventar.stakputall();
+						Inventar.staktakeone();
+						Inventar.stakswitch();
+				}
+			}
 		}
 
 		if (Menustatus == 1) {
 			Mainmenu.Mainmenu();
 			sm.stopSound(sm.GameMusic);
+			for (int i = 0; i < 29; i++) {
+				inventars.get(i).aktiv = true;
+			}
 		}
 		if (Menustatus == 2) {
 			Mainmenu.Menu2();
@@ -338,6 +367,7 @@ public class Mainclass {
 		}
 		if (Menustatus == 3) {
 			Mainmenu.IngameMenu();
+			sm.stopSound(sm.GameMusic);
 		}
 	}
 

@@ -16,7 +16,7 @@ public class Eisenspitzhacke extends Items{
 	}
 	
 	public int starke() {
-		return 4;
+		return 2;
 	}
 	@Override
 	public void setzaktion() {

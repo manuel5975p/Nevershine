@@ -8,10 +8,9 @@ import Items.Eisenerzitem;
 import Items.Items;
 import Mainpackage.Mainclass;
 public class Eisen extends Block implements Serializable{
-	static int eisenharte = 8;
+	int eisenharte = 8;
 
 	public Eisen() {
-		
 	}
 
 	public void anzeigen(int xpos, int ypos) {
@@ -37,6 +36,16 @@ public class Eisen extends Block implements Serializable{
 	}
 
 	public void aktion() {
+	}
+	
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.stonedig);
+		
+	}
+
+	public void abbau(int Wert) {
+		eisenharte -= Wert;
+		
 	}
 
 }

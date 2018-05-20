@@ -10,7 +10,7 @@ import Mainpackage.Mainclass;
 
 
 public class Bletter extends Block implements Serializable{
-	static int bletterharte = 2;
+	int bletterharte = 2;
 	public Bletter (){
 		}
 	public void anzeigen(int xpos, int ypos) {
@@ -35,5 +35,15 @@ public class Bletter extends Block implements Serializable{
 	}
 
 	public void aktion() {	
+	}
+	
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.bletterdig);
+		
+	}
+	
+	public void abbau(int Wert) {
+		bletterharte -= Wert;
+		
 	}
 }

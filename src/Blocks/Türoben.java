@@ -11,7 +11,7 @@ import Mainpackage.Mainclass;
 
 
 public class Türoben extends Block implements Serializable{
-	static int Türharte = 2;
+	int Türharte = 2;
 	
 	public Türoben(){
 		}
@@ -45,5 +45,14 @@ public class Türoben extends Block implements Serializable{
 	public void aktion() {
 		System.out.println("verwendet");
 		Türbegehbar = false;
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.holzdig);
+		
+	}
+
+	public void abbau(int Wert) {
+		Türharte -= Wert;
 	}
 }

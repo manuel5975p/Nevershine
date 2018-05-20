@@ -11,7 +11,7 @@ import Mainpackage.Mainclass;
 
 
 public class schneedreck extends Block implements Serializable{
-	static int grasdreckharte = 4;
+	int grasdreckharte = 4;
 
 	public schneedreck() {
 		
@@ -41,6 +41,16 @@ public class schneedreck extends Block implements Serializable{
 	}
 
 	public void aktion() {
+		
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.dreckdig);
+		
+	}
+
+	public void abbau(int Wert) {
+		grasdreckharte -= Wert;
 		
 	}
 

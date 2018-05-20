@@ -30,7 +30,7 @@ public class Feuerstelle extends Block{
 		if(randome == 3){
 			Mainclass.feuerpartikels.add( new Feuerpartikel(xpos + 17, ypos + 15));
 			}
-		GL11.glColor4f(1, 1, 1, 1);
+		GL11.glColor4f(1,1,1,1);
 		Mainclass.Feuerstelle.displayRect(xpos + Mainclass.xver, ypos + Mainclass.yver, grösse, grösse);
 	}
 	public Items drop() {
@@ -50,5 +50,15 @@ public class Feuerstelle extends Block{
 	}
 
 	public void aktion() {
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.bletterdig);
+		
+	}
+
+	public void abbau(int Wert) {
+		Feuerharte -= Wert;
+		
 	}
 }

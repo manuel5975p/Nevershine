@@ -10,7 +10,7 @@ import Mainpackage.Mainclass;
 
 
 public class Holz extends Block implements Serializable{
-	static int holzharte = 4;
+	int holzharte = 4;
 	public Holz (){
 		}
 
@@ -38,5 +38,15 @@ public class Holz extends Block implements Serializable{
 	}
 
 	public void aktion() {
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.holzdig);
+		
+	}
+
+	public void abbau(int Wert) {
+		holzharte -= Wert;
+		
 	}
 }

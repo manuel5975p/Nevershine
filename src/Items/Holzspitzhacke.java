@@ -17,7 +17,7 @@ public class Holzspitzhacke extends Items{
 	}
 
 	public int starke() {
-		return 8;
+		return 1;
 	}
 
 	public void setzaktion() {

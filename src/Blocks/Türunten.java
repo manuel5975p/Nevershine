@@ -11,7 +11,7 @@ import Mainpackage.Mainclass;
 
 
 public class Türunten extends Block implements Serializable{
-	static int Türharte = 2;
+	int Türharte = 2;
 	
 	public Türunten (){
 		}
@@ -45,5 +45,14 @@ public class Türunten extends Block implements Serializable{
 
 	public void aktion() {
 		this.Türbegehbar =! this.Türbegehbar;
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.holzdig);
+	}
+
+	public void abbau(int Wert) {
+		Türharte -= Wert;
+		
 	}
 }

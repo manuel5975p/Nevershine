@@ -10,7 +10,7 @@ import Mainpackage.Mainclass;
 
 
 public class Stone extends Block implements Serializable{
-	static int stoneharte = 6;
+	int stoneharte = 6;
 	public Stone (){
 		}
 
@@ -38,5 +38,15 @@ public class Stone extends Block implements Serializable{
 	}
 
 	public void aktion() {
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.stonedig);
+		
+	}
+
+	public void abbau(int Wert) {
+		stoneharte -= Wert;
+		
 	}
 }

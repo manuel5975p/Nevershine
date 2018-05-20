@@ -41,4 +41,12 @@ public class Schneedecke extends Block implements Serializable{
 	public void aktion() {
 	}
 
+	public void sound() {
+	}
+
+	public void abbau(int Wert) {
+		schneeharte -= Wert;
+		
+	}
+
 }

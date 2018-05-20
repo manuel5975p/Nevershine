@@ -9,7 +9,7 @@ import Items.Items;
 import Mainpackage.Mainclass;
 
 public class Dreck extends Block implements Serializable{
-	static int dreckharte = 4;
+	int dreckharte = 4;
 	
 	public Dreck() {
 		
@@ -38,5 +38,14 @@ public class Dreck extends Block implements Serializable{
 
 	public void aktion() {
 		
+	}
+
+	public void sound() {
+		Mainclass.dig.playSound(Mainclass.dig.dreckdig);
+		
+	}
+
+	public void abbau(int Wert) {
+		dreckharte -= Wert;
 	}
 }

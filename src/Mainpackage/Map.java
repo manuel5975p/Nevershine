@@ -54,19 +54,12 @@ public class Map {
 				Map.baum(i, 29);
 			}
 		}
-		/*
-		 * for (int i = 0; i < Mainclass.xsize; i++) { for (int b = 0; b <
-		 * Mainclass.xsize; b++) { boolean setzen = false; for (int br = b; br >
-		 * 0; br--) { if (Mainclass.array1[i][br].content.getClass().equals(new
-		 * Luft().getClass())) { setzen = true; } } if (setzen == true) {
-		 * Mainclass.array1[i][29].ersetzen(new Schneedecke()); } } }
-		 */
 		Mainclass.Menustatus = 0;
 	}
 
 	public static void speichern() {
 		try {
-			FileOutputStream fout = new FileOutputStream("Lukas");
+			FileOutputStream fout = new FileOutputStream("save");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(Mainclass.array1);
 			oos.close();
@@ -144,6 +137,9 @@ public class Map {
 					Mainclass.array1[i][b].ersetzen(new Luft());
 				}
 				if (Mainclass.array1[i][b].content.getClass().equals(new Türoben().getClass()) && !Mainclass.array1[i][b + 1].content.getClass().equals(new Türunten().getClass())) {
+					Mainclass.array1[i][b].ersetzen(new Luft());
+				}
+				if (Mainclass.array1[i][b].content.getharte() <= 0){
 					Mainclass.array1[i][b].ersetzen(new Luft());
 				}
 			}

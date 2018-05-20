@@ -10,7 +10,6 @@ public abstract class Items{
 	public abstract boolean setzbar();
 	public abstract int starke();
 	public abstract void setzaktion();
-	public abstract boolean food();
 	 }
 	
 

@@ -30,6 +30,7 @@ import Items.Holzitem;
 import Items.Apfel;
 import Items.Türitem;
 import Mainpackage.Texture;
+import world.Map;
 import Items.Items;
 import Items.Holzspitzhacke;
 import Items.Steinspitzhacke;
@@ -48,7 +49,7 @@ public class Mainclass {
 	private static final int FRAMERATE = 60;
 	static boolean finished = false;
 	static ArrayList<Spieler> spielers = new ArrayList<Spieler>();
-	static ArrayList<Schnee> schnees = new ArrayList<Schnee>();
+	public static ArrayList<Schnee> schnees = new ArrayList<Schnee>();
 	public static ArrayList<Feuerpartikel> feuerpartikels = new ArrayList<Feuerpartikel>();
 	public static ArrayList<Inventarfeld> inventars = new ArrayList<Inventarfeld>();
 	static boolean aktive = false, oben = false;
